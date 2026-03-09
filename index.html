@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Takeoff AI Platform</title>
+<script src="config.js"></script>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;padding:30px}
+.card{background:#1e293b;padding:20px;border-radius:10px;margin-bottom:20px}
+button{padding:8px 15px;background:#38bdf8;border:none;border-radius:6px;font-weight:bold}
+input{padding:6px;margin:4px}
+pre{background:#020617;padding:10px;border-radius:6px}
+</style>
+</head>
+
+<body>
+
+<h1>🚀 Takeoff AI Platform</h1>
+
+<div class="card">
+<h3>Run Model / Agent / Tool</h3>
+
+<select id="type">
+<option value="model">Model</option>
+<option value="agent">Agent</option>
+<option value="tool">Tool</option>
+</select>
+
+<input id="name" placeholder="name">
+<input id="input" placeholder="input">
+<button onclick="runAI()">Run</button>
+
+<pre id="output"></pre>
+
+</div>
+
+<script>
+
+async function runAI(){
+
+let type=document.getElementById("type").value
+let name=document.getElementById("name").value
+let input=document.getElementById("input").value
+
+let res=await fetch(API_BASE + ":8000/run",{
+
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+type:type,
+name:name,
+input:input
+})
+
+})
+
+let data=await res.json()
+
+document.getElementById("output").innerText=JSON.stringify(data,null,2)
+
+}
+
+</script>
+
+</body>
+</html>
